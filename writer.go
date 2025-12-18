@@ -1014,8 +1014,8 @@ func encodeString(s string) ([]byte, error) {
 	}
 
 	result := make([]byte, 3+len(utf16))
-	result[0] = byte(len(s)) // Character count (not byte count)
-	result[1] = 0x01 // Unicode flag (UTF-16LE)
+	result[0] = byte(len([]rune(s))) // Character count (not byte count)
+	result[1] = 0x01                 // Unicode flag (UTF-16LE)
 	result[2] = 0x00
 	copy(result[3:], utf16)
 
@@ -1031,7 +1031,7 @@ func encodeStringForSST(s string) ([]byte, error) {
 	}
 
 	result := make([]byte, 3+len(utf16))
-	binary.LittleEndian.PutUint16(result[0:2], uint16(len(s))) // Character count
+	binary.LittleEndian.PutUint16(result[0:2], uint16(len([]rune(s)))) // Character count
 	result[2] = 0x01 // Unicode flag
 	copy(result[3:], utf16)
 
